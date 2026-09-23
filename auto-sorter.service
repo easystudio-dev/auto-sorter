@@ -1,0 +1,12 @@
+[Unit]
+Description=Auto Sorter - Downloads folder organizer
+After=default.target
+
+[Service]
+Type=simple
+ExecStart=%h/Desktop/GitHub/auto-sorter/.env/bin/python %h/Desktop/GitHub/auto-sorter/auto-sorter.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
