@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-# Set up the venv, install deps, and register the systemd user service.
+# For running from source on Linux: set up the venv, install deps, and register
+# a headless systemd user service. Most people should use the downloadable app
+# instead (see README).
 set -euo pipefail
 cd "$(dirname "$0")"
 
@@ -18,7 +20,8 @@ echo "Installing dependencies"
 if command -v systemctl >/dev/null 2>&1; then
     UNIT_DIR="$HOME/.config/systemd/user"
     mkdir -p "$UNIT_DIR"
-    cp auto-sorter.service "$UNIT_DIR/auto-sorter.service"
+    sed -e "s|@PYTHON@|$PWD/$VENV/bin/python|g" -e "s|@APP_DIR@|$PWD|g" \
+        auto-sorter.service > "$UNIT_DIR/auto-sorter.service"
     systemctl --user daemon-reload
     systemctl --user enable --now auto-sorter.service
     echo
@@ -30,5 +33,5 @@ if command -v systemctl >/dev/null 2>&1; then
 else
     echo
     echo "systemd not found. Run manually:"
-    echo "    $VENV/bin/python auto-sorter.py"
+    echo "    $VENV/bin/python auto_sorter.py"
 fi
