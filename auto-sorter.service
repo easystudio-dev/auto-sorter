@@ -1,12 +1,16 @@
+# Template: install.sh fills in @PYTHON@ and @APP_DIR@.
+# Headless alternative to the tray app, for running from source.
 [Unit]
 Description=Auto Sorter - Downloads folder organizer
 After=default.target
 
 [Service]
 Type=simple
-ExecStart=%h/Desktop/GitHub/auto-sorter/.env/bin/python %h/Desktop/GitHub/auto-sorter/auto-sorter.py
+ExecStart="@PYTHON@" "@APP_DIR@/auto_sorter.py"
 Restart=on-failure
 RestartSec=5
+# Exit code 3 = another copy (e.g. the tray app) is already running; don't loop.
+RestartPreventExitStatus=3
 
 [Install]
 WantedBy=default.target

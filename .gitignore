@@ -1,4 +1,5 @@
-sorter-env/
 .env/
 __pycache__/
 *.pyc
+build/
+dist/
